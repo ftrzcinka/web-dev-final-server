@@ -28,10 +28,20 @@ async function findAll() {
   return allEmployees.map((doc) => doc.dataValues);
 }
 
+// deletes an employee by id, returns the deleted document
+async function deleteById(emplId) {
+  const foundEmployee = await findById(emplId);
+  await EmployeeModel.destroy({
+    where: { id: emplId },
+  });
+  return foundEmployee;
+}
+
 const EmployeeService = {
   create,
   findById,
   findAll,
+  deleteById,
 };
 
 module.exports = EmployeeService;
