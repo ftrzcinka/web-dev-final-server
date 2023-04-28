@@ -9,7 +9,6 @@ async function create(attributes) {
 
 // finds a single employee, as well as all of their assigned tasks
 async function findById(employeeId) {
-  console.log(employeeId);
   const foundEmployee = await EmployeeModel.findByPk(employeeId);
   if (!foundEmployee) return null;
 
@@ -34,9 +33,13 @@ async function findAll() {
 // deletes an employee by id, returns the deleted document
 async function deleteById(emplId) {
   const foundEmployee = await findById(emplId);
-  await EmployeeModel.destroy({
-    where: { id: emplId },
-  });
+  // find all tasks assigned by user and detach
+  await TaskModel.update(
+    { employeeId: null },
+    { where: { employeeId: emplId } }
+  );
+
+  await EmployeeModel.destroy({ where: { id: emplId } });
   return foundEmployee;
 }
 
