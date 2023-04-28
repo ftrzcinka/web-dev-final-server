@@ -2,19 +2,20 @@ const { DataTypes } = require("sequelize");
 const db = require("../config/database");
 
 const Task = db.define("Tasks", {
-  user: {
-    type: DataTypes.INTEGER,
-    required: true,
-  },
   description: {
-    type: DataTypes.TEXT,
+    type: DataTypes.STRING,
+    required: true,
   },
   priority: {
     type: DataTypes.INTEGER,
     required: true,
   },
-  completion: {
+  completed: {
     type: DataTypes.BOOLEAN,
+    required: true,
+  },
+  employeeId: {
+    type: DataTypes.INTEGER,
   },
 });
 
