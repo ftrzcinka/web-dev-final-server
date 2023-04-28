@@ -1,12 +1,7 @@
 const express = require("express");
-//Database
-const db = require("./config/database");
+const connectToDatabase = require("./models");
 
-db.authenticate()
-  .then(async () => {
-    console.log("Database connected...");
-  })
-  .catch((err) => console.log("Error: " + err));
+connectToDatabase();
 
 const app = express();
 
