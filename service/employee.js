@@ -1,6 +1,12 @@
 const EmployeeModel = require("../models/Employee");
 const TaskModel = require("../models/Task");
 
+// creates a single employee
+async function create(attributes) {
+  const createdEmployee = await EmployeeModel.create(attributes);
+  return createdEmployee;
+}
+
 // finds a single employee, as well as all of their assigned tasks
 async function findById(employeeId) {
   const foundEmployee = await EmployeeModel.findByPk(employeeId);
@@ -23,6 +29,7 @@ async function findAll() {
 }
 
 const EmployeeService = {
+  create,
   findById,
   findAll,
 };
