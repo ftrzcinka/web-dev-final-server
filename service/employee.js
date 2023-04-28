@@ -9,11 +9,14 @@ async function create(attributes) {
 
 // finds a single employee, as well as all of their assigned tasks
 async function findById(employeeId) {
+  console.log(employeeId);
   const foundEmployee = await EmployeeModel.findByPk(employeeId);
   if (!foundEmployee) return null;
 
   const associatedTasks = await TaskModel.findAll({
-    employeeId: foundEmployee.id,
+    where: {
+      employeeId: foundEmployee.id,
+    },
   });
 
   return {
