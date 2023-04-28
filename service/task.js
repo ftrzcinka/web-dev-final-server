@@ -1,3 +1,4 @@
+const EmployeeModel = require("../models/Employee");
 const TaskModel = require("../models/Task");
 
 async function create(attributes) {
@@ -6,21 +7,18 @@ async function create(attributes) {
 }
 
 async function assign(taskId, emplId) {
-  const foundTask = await TaskModel.findByPk(taskId);
-  const updatedTask = foundTask.update({ employeeId: emplId });
-  return updatedTask;
+  await TaskModel.update({ employeeId: emplId }, { where: { id: taskId } });
+  return findById(taskId);
 }
 
 async function unassign(taskId) {
-  const foundTask = await TaskModel.findByPk(taskId);
-  const updatedTask = foundTask.update({ employeeId: null });
-  return updatedTask;
+  await TaskModel.update({ employeeId: null }, { where: { id: taskId } });
+  return findById(taskId);
 }
 
 async function update(taskId, attributes) {
-  const foundTask = await TaskModel.findByPk(taskId);
-  const updatedTask = foundTask.update(attributes);
-  return updatedTask;
+  await TaskModel.update(attributes, { where: { id: taskId } });
+  return findById(taskId);
 }
 
 async function findById(taskId) {
@@ -29,7 +27,21 @@ async function findById(taskId) {
 }
 
 async function findAll() {
-  const allTasks = await TaskModel.findAll({});
+  const allTasks = await TaskModel.findAll().then(async (rows) => {
+    const tasksWithEmployees = [];
+
+    for (const row of rows) {
+      const { dataValues: task } = row;
+      const associatedEmployee = await EmployeeModel.findByPk(task.employeeId);
+      tasksWithEmployees.push({
+        ...task,
+        employee: associatedEmployee?.dataValues,
+      });
+    }
+
+    return tasksWithEmployees;
+  });
+
   return allTasks;
 }
 
