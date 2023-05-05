@@ -30,6 +30,12 @@ async function findAll() {
   return allEmployees.map((doc) => doc.dataValues);
 }
 
+// updates an employee
+async function update(emplId, attributes) {
+  await EmployeeModel.update(attributes, { where: { id: emplId } });
+  return findById(emplId);
+}
+
 // deletes an employee by id, returns the deleted document
 async function deleteById(emplId) {
   const foundEmployee = await findById(emplId);
@@ -47,6 +53,7 @@ const EmployeeService = {
   create,
   findById,
   findAll,
+  update,
   deleteById,
 };
 
