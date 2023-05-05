@@ -35,6 +35,21 @@ employeeRouter.get("/:id", async (request, response) => {
   }
 });
 
+employeeRouter.put("/:id", async (request, response) => {
+  try {
+    const emplId = parseInt(request.params.id);
+    const updatedEmployeeAttributes = request.body;
+
+    const updatedEmployee = await EmployeeService.update(
+      emplId,
+      updatedEmployeeAttributes
+    );
+    response.status(200).json(updatedEmployee);
+  } catch (error) {
+    response.status(500).json({ error: error.toString() });
+  }
+});
+
 employeeRouter.delete("/:id", async (request, response) => {
   try {
     const emplId = parseInt(request.params.id);
