@@ -27,7 +27,7 @@ async function findById(employeeId) {
 // retrieves all employees
 async function findAll() {
   const allEmployees = await EmployeeModel.findAll();
-  return allEmployees.map((doc) => doc.dataValues);
+  return allEmployees.map((doc) => doc.dataValues).sort((a, b) => a.id - b.id);
 }
 
 // updates an employee
