@@ -1,5 +1,5 @@
 const express = require("express");
-const EmployeeService = require("../service/Employee");
+const EmployeeService = require("../service/employee");
 
 const employeeRouter = express.Router();
 
