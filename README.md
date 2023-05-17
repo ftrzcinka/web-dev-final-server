@@ -1,5 +1,5 @@
 Group Members:
-- Omer
+- Omer Skaljic
 - Josiel
 - Justin
 - Filip Trzcinka
